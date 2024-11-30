@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.total_Column {
+  display: flex;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 cột */
+  gap: 10px; /* Khoảng cách giữa các ảnh */
+}
+
+.grid-container img {
+  width: 100%; /* Ảnh chiếm toàn bộ chiều rộng của cột */
+  height: auto; /* Đảm bảo giữ đúng tỷ lệ khung hình */
+}
+.container_Footer {
+  display: grid;
+  grid-template-columns: repeat(5fr, 1);
+  grid-template-rows: repeat(3fr, 1);
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 cột */
+  grid-template-rows: repeat(3, auto); /* 3 dòng tự động với chiều cao */
+  gap: 10px; /* Khoảng cách giữa các phần tử */
+  justify-items: center; /* Căn giữa phần tử */
+}
+.grid-container img {
+  max-width: 100%; /* Ảnh responsive */
+  height: auto;
+  border-radius: 5px; /* Bo góc cho ảnh */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+}

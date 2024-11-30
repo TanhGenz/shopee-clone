@@ -8,8 +8,6 @@ const jwt = require("jsonwebtoken");
 let refreshTokens = [];
 
 const authController = {
-
-
   //FUNC LOGIC cho REGISTER
   registerUser: async (req, res) => {
     try {
@@ -27,11 +25,10 @@ const authController = {
       const user = await newUser.save();
       res.status(200).json(user);
     } catch (err) {
-        // lỗi  500 => lỗi server
+      // lỗi  500 => lỗi server
       res.status(500).json(err);
     }
   },
-
 
   // GENERATE ACCESS TOKEN
   generateAccessToken: (user) => {
@@ -45,7 +42,6 @@ const authController = {
     );
   },
 
-
   // GENERATE REFRESH TOKEN
   generateRefreshToken: (user) => {
     return jwt.sign(
@@ -57,7 +53,6 @@ const authController = {
       { expiresIn: "365d" }
     );
   },
-
 
   //LOGIN
   loginUser: async (req, res) => {
@@ -74,35 +69,37 @@ const authController = {
         return res.status(404).json("Incorrect password");
       }
       if (user && validPassword) {
-        // GENERATE ACCESS TOKEN   
+        // GENERATE ACCESS TOKEN
         const accessToken = authController.generateAccessToken(user);
 
         // GENERATE REFRESH TOKEN
-        const refreshToken = authController.generateRefreshToken(user)
+        const refreshToken = authController.generateRefreshToken(user);
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: false,
-          path:"/",
+          path: "/",
           // ngan chan csrf bang cach http chi duoc gui den website
           sameSite: "strict",
           // trong cookies da co refresh nen kh can fai khai ra
-        })
+        });
 
         // kh muon hien password trong data in mongoDB
-        const  {password, ...others} = user._doc;
-        res.status(200).json({...others, accessToken});
+        const { password, ...others } = user._doc;
+        res.status(200).json({ ...others, accessToken });
+      }
+      if (user.isAdmin == "true") {
+        navigate;
       }
     } catch (err) {
       res.status(500).json(err);
     }
   },
 
-
   // REQUEST REFRESH TOKEN
   // requestRefreshToken: async (req, res) => {
   //   //Take refresh token from user (lay thu dai han de tao moi)
   //   const refreshToken = req.cookies.refreshToken;
-    
+
   //   if (!refreshToken) return res.status(401).json("You're not authenticated");
   //   // neu refresh token kh fai cua minh => token is not valid
   //   if (!refreshTokens.includes(refreshToken)) {
@@ -115,7 +112,7 @@ const authController = {
   //     }
   //     refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
   //     //create new access token, refresh token and send to user
-  //     // created generateAccessToken 
+  //     // created generateAccessToken
   //     // user id van la tk user nho vao (1)
   //     const newAccessToken = authController.generateAccessToken(user);
   //     const newRefreshToken = authController.generateRefreshToken(user);
@@ -143,7 +140,6 @@ const authController = {
     if (!refreshToken) return res.status(401).json("You're not authenticated");
     if (!refreshTokens.includes(refreshToken)) {
       return res.status(403).json("Refresh token is not valid");
-
     }
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN, (err, user) => {
       if (err) {
@@ -156,7 +152,7 @@ const authController = {
       refreshTokens.push(newRefreshToken);
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure:false,
+        secure: false,
         path: "/",
         sameSite: "strict",
       });
@@ -174,8 +170,6 @@ const authController = {
     res.clearCookie("refreshToken");
     res.status(200).json("Logged out successfully!");
   },
-
-
 };
 
 // store token (3 dang luu tru token)

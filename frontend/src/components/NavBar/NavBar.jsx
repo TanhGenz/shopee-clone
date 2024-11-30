@@ -1,37 +1,52 @@
 import { useState } from "react";
-import { Link, useNavigate  } from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux"
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Button } from "react-bootstrap";
 import "./navbar.css";
 import { logOut } from "../../redux/apiRequest";
 import { createAxios } from "../../createInstance";
 import { logOutSuccess } from "../../redux/authSlice";
 
 const NavBar = () => {
-  const user = useSelector ((state) => state.auth.login.currentUser);
+  const user = useSelector((state) => state.auth.login.currentUser);
   const accessToken = user?.accessToken;
-  const id = user?._id
-  const dispatch = useDispatch ();
-  const navigate = useNavigate ();
-  let axiosJWT = createAxios(user, dispatch,logOutSuccess);
-  
+  const id = user?._id;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let axiosJWT = createAxios(user, dispatch, logOutSuccess);
+
   const handleLogout = () => {
     logOut(dispatch, id, navigate, accessToken, axiosJWT);
-  }
+  };
 
   return (
     <nav className="navbar-container">
-      <Link to="/" className="navbar-home"> Home </Link>
-      {user? (
+      <Link to="/" className="navbar-home">
+        {" "}
+        Home{" "}
+      </Link>
+      {user ? (
         <>
-        <p className="navbar-user">Hi, <span> {user.username}  </span> </p>
-        <Link to="/logout" className="navbar-logout" onClick={handleLogout}> Log out</Link>
+          <p className="navbar-user">
+            Hi, <span> {user.username} </span>{" "}
+          </p>
+          <Link to="/logout" className="navbar-logout" onClick={handleLogout}>
+            {" "}
+            Log out
+          </Link>
         </>
-      ) : (    
+      ) : (
         <>
-      <Link to="/login" className="navbar-login"> Login </Link>
-      <Link to="/register" className="navbar-register"> Register</Link>
-      </>
-)}
+          <Link to="/login" className="navbar-login">
+            {" "}
+            Login{" "}
+          </Link>
+          <Link to="/register" className="navbar-register">
+            {" "}
+            Register
+          </Link>
+        </>
+      )}
     </nav>
   );
 };

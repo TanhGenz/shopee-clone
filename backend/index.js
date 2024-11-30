@@ -9,7 +9,7 @@ const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 
 // dotenv.config();
-require('dotenv').config({ path: './path/to/.env' });
+require("dotenv").config({ path: "./path/to/.env" });
 const app = express();
 
 dotenv.config();
@@ -17,13 +17,13 @@ async function connect() {
   try {
     // Connect to MongoDB using Promise-based approach
     await mongoose.connect(process.env.MONGODB_URL);
-    console.log('Connected to MongoDB successfully!');
+    console.log("Connected to MongoDB successfully!");
     console.log(process.env.MONGODB_URL);
 
     // Perform operations using the connected MongoDB client
     // ...
   } catch (error) {
-    console.error('Failed to connect to MongoDB:', error);
+    console.error("Failed to connect to MongoDB:", error);
   }
 }
 connect();
@@ -38,12 +38,10 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.listen(8000, () => {
-    console.log("Server is running");
-  });
+  console.log("Server is running");
+});
 
-
-
-// ROUTES  
+// ROUTES
 app.use("/v1/auth", authRoute);
 app.use("/v1/user", userRoute);
 
