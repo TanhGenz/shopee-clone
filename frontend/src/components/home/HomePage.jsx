@@ -32,7 +32,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/MainPage");
     }
     if (user?.accessToken) {
       getAllUsers(user?.accessToken, dispatch, axiosJWT);
@@ -43,12 +43,6 @@ const HomePage = () => {
     <main className="home-container">
       <div className="home-title">User List</div>
 
-      <div className="home-role">
-        {`Your role: ${user?.isAdmin ? `Admin` : `User`}`}
-      </div>
-      <Link to={"/ProductList"}>
-        <Button variant="secondary">User List Product</Button>
-      </Link>
       <div className="home-userlist">
         {userList?.map((user) => {
           return (

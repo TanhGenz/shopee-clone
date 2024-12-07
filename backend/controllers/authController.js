@@ -87,9 +87,6 @@ const authController = {
         const { password, ...others } = user._doc;
         res.status(200).json({ ...others, accessToken });
       }
-      if (user.isAdmin == "true") {
-        navigate;
-      }
     } catch (err) {
       res.status(500).json(err);
     }

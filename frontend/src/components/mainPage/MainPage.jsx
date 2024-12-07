@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./mainPage.css";
+import Footer from "../footer/Footer";
+import Slider from "../slider/Slider";
+import images from "../slider/images";
 export default function MainPage() {
   const [dataSanPham, setDataSanPham] = useState([]);
   useEffect(() => {
@@ -11,7 +14,11 @@ export default function MainPage() {
   }, []);
   return (
     <div className="product-list">
-      <h1>Trang chính của user</h1>
+      <Slider>
+        {images.map((image, index) => {
+          return <img key={index} src={image.imgURL} alt={image.imgAlt} />;
+        })}
+      </Slider>
       <div className="data_List grid grid-cols-3 gap-4">
         {dataSanPham.map((product) => (
           <div
@@ -29,6 +36,7 @@ export default function MainPage() {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 }

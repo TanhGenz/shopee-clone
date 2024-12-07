@@ -3,7 +3,7 @@ export default function Footer() {
   return (
     <div className="bg-gray-100 py-10">
       <div className="container container_Footer mx-auto">
-        <div className="grid grid-cols-5 gap-6 total_Column">
+        <div className="grid   total_Column">
           {/* Column 1 */}
           <div>
             <h1 className="text-lg font-bold mb-4">Chăm sóc khách hàng</h1>
@@ -120,7 +120,7 @@ export default function Footer() {
           {/* Column 5 */}
           <div>
             <h1 className="text-lg font-bold mb-4">Tải ứng dụng Shopee</h1>
-            <div className="flex items-center">
+            <div className="footer_Item">
               <img
                 src="https://down-vn.img.susercontent.com/file/a5e589e8e118e937dc660f224b9a1472"
                 alt="qr"

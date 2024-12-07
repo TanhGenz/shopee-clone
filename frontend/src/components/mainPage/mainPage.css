@@ -3,8 +3,8 @@
 }
 .dataSanPham {
   margin-left: 50px;
-  width: 500px;
-  height: 300px;
+  max-width: 300px;
+  max-height: fit-content;
   margin-top: 50px;
 }
 
@@ -13,4 +13,7 @@
 }
 .product-list {
   text-align: center;
+}
+.data_List {
+  background-color: white;
 }

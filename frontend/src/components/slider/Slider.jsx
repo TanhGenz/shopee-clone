@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
+import "./Slider.css";
 
-export function Slider({ children }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [slideDone, setSlideDone] = useState(true);
+export default function Slider({ children }) {
+  const [activeIndex, setActiveIndex] = useState(0); // Khai bao mui ten
+  const [slideDone, setSlideDone] = useState(true); //khai bao trang thai ket thuc slide
   const [timeID, setTimeID] = useState(null);
 
   useEffect(() => {
+    //ket thuc slide cuoi cung thi chuyen lai len dau
     if (slideDone) {
       setSlideDone(false);
       setTimeID(
@@ -18,6 +20,7 @@ export function Slider({ children }) {
   }, [slideDone]);
 
   const slideNext = () => {
+    //chuyen slide
     setActiveIndex((val) => {
       if (val >= children.length - 1) {
         return 0;
@@ -28,6 +31,7 @@ export function Slider({ children }) {
   };
 
   const slidePrev = () => {
+    //mui ten
     setActiveIndex((val) => {
       if (val <= 0) {
         return children.length - 1;

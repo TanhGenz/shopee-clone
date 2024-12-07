@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ProductList from "./components/ProductList/ProductList";
 import MainPage from "./components/mainPage/MainPage";
 import { useState } from "react";
+import "./App.css";
 
 function App() {
   return (

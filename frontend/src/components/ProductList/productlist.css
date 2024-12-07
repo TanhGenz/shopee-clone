@@ -1,0 +1,95 @@
+.product-list {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+.product-list h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #333;
+}
+
+.data_List {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.data_List > div {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.data_List > div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.data_List img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.data_List h2 {
+  margin: 10px 0;
+  font-size: 1.2rem;
+  color: #555;
+  text-align: center;
+}
+
+.data_List p {
+  text-align: center;
+  font-size: 1rem;
+  color: #2d8659;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.data_List button {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.data_List button.bg-yellow-500:hover {
+  background-color: #e5a00d;
+}
+
+.data_List button.bg-red-500:hover {
+  background-color: #d62929;
+}
+
+.data_List button.bg-yellow-500,
+.data_List button.bg-red-500 {
+  width: 45%;
+  text-align: center;
+  margin: 0 2%;
+}
+
+.data_List .buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.navbar-user {
+  display: flex;
+  color: white;
+  margin-right: 50px;
+  max-width: 50px;
+}
+.navbar-logout {
+  color: white;
+  display: flex;
+  max-width: 100px;
+}

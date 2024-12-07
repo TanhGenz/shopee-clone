@@ -9,7 +9,18 @@
   grid-template-columns: repeat(3, 1fr); /* 3 cột */
   gap: 10px; /* Khoảng cách giữa các ảnh */
 }
-
+.bg-gray-100 {
+  background-color: #fbfbfb !important;
+}
+.footer_Item {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  margin-left: 50px;
+}
+.footer_Item {
+  display: flex;
+}
 .grid-container img {
   width: 100%; /* Ảnh chiếm toàn bộ chiều rộng của cột */
   height: auto; /* Đảm bảo giữ đúng tỷ lệ khung hình */
@@ -31,4 +42,11 @@
   height: auto;
   border-radius: 5px; /* Bo góc cho ảnh */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+}
+.total_Column .text-lg {
+  font-size: medium;
+  text-align: center;
+}
+.total_Column div {
+  width: 200px;
 }

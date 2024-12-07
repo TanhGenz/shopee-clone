@@ -1,8 +1,10 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: white;
 }
-
+a {
+  text-decoration: none;
+}
 .signup-form {
   max-width: 400px;
   margin: 50px auto;
@@ -48,4 +50,7 @@ body {
 .error {
   color: red;
   font-size: 0.875em;
+}
+.dataSanPham {
+  cursor: pointer;
 }
