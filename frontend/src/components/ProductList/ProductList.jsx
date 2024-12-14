@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../footer/Footer";
 import "./productlist.css";
+import { formatCurrency } from "../ExchangeMoney/formatCurrency";
 export default function ProductList() {
   const [dataSanPham, setDataSanPham] = useState([]);
   const [newProduct, setNewProduct] = useState({
@@ -8,6 +9,7 @@ export default function ProductList() {
     price: "",
     avatar: "",
   });
+
   const [editProduct, setEditProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // Điều khiển hiển thị modal
   const [modalType, setModalType] = useState(""); // "add" hoặc "edit"
@@ -37,18 +39,16 @@ export default function ProductList() {
 
   // Cập nhật sản phẩm
   const handleUpdateProduct = () => {
-    if (editProduct) {
-      fetch(
-        `https://657eac8e3e3f5b189463f4b4.mockapi.io/api/products/products/${editProduct.id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(editProduct),
-        }
-      ).then(() => {
-        fetchProducts();
-        setIsModalOpen(false); // Đóng modal
-      });
+    // Kiểm tra và cập nhật dữ liệu sản phẩm
+    if (editProduct.name && editProduct.price && editProduct.avatar) {
+      setDataSanPham((prev) =>
+        prev.map((item) =>
+          item.id === editProduct.id ? { ...editProduct } : item
+        )
+      );
+      setIsModalOpen(false); // Đóng modal
+    } else {
+      alert("Vui lòng điền đầy đủ thông tin!");
     }
   };
 
@@ -75,105 +75,143 @@ export default function ProductList() {
 
   return (
     <div className="product-list">
-      <h1>Danh sách sản phẩm</h1>
+      <h1 className="text-2xl font-bold mb-4">Quản lý sản phẩm</h1>
 
+      {/* Nút thêm sản phẩm */}
       <button
         onClick={() => openModal("add")}
-        className="bg-green-500 text-white p-2 mb-4"
+        className="bg-green-500 text-white px-4 py-2 rounded mb-4"
       >
         Thêm sản phẩm
       </button>
 
-      <div className="data_List grid grid-cols-3 gap-4">
-        {dataSanPham.map((product) => (
-          <div key={product.id} className="border p-4 rounded shadow">
-            <img
-              src={product.avatar}
-              alt={product.name}
-              className="w-full h-40 object-cover mb-2 rounded"
-            />
-            <h2 className="text-lg font-bold">{product.name}</h2>
-            <p className="text-green-600 font-semibold">${product.price}</p>
-            <button
-              onClick={() => openModal("edit", product)}
-              className="bg-yellow-500 text-white p-2"
-            >
-              Sửa
-            </button>
-            <button
-              onClick={() => handleDeleteProduct(product.id)}
-              className="bg-red-500 text-white p-2 ml-2"
-            >
-              Xóa
-            </button>
-          </div>
-        ))}
-      </div>
+      {/* Bảng danh sách sản phẩm */}
+      <table className="table-auto w-full border-collapse border border-gray-300 table_Data">
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="border border-gray-300 px-4 py-2">STT</th>
+            <th className="border border-gray-300 px-4 py-2">Hình ảnh</th>
+            <th className="border border-gray-300 px-4 py-2">Tên sản phẩm</th>
+            <th className="border border-gray-300 px-4 py-2">Mục Sản Phẩm</th>
+            <th className="border border-gray-300 px-4 py-2">Số lượng</th>
+            <th className="border border-gray-300 px-4 py-2">Giá</th>
+            <th className="border border-gray-300 px-4 py-2">Action </th>
+          </tr>
+        </thead>
+        <tbody>
+          {dataSanPham.map((product, index) => (
+            <tr key={product.id} className="text-center">
+              <td className="border border-gray-300 px-4 py-2">{index + 1}</td>
+              <td className="border border-gray-300 px-4 py-2">
+                <img
+                  src={product.avatar}
+                  alt={product.name}
+                  className="w-16 h-16 object-cover mx-auto"
+                />
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {product.name}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {product.productType}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {product.Amount}
+              </td>
+              <td className="border border-gray-300 px-4 py-2 text-green-600 font-semibold">
+                {formatCurrency(product.price)}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                <button
+                  onClick={() => {
+                    setEditProduct(product); // Lưu sản phẩm đang được sửa vào state
+                    openModal("edit");
+                  }}
+                  className="buttonEdit"
+                >
+                  Sửa
+                </button>
+                <button
+                  onClick={() => handleDeleteProduct(product.id)}
+                  className="deleteButton"
+                >
+                  Xóa
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-      {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded shadow-lg w-1/3">
+        <div className="modal-overlay">
+          <div className="modal-content">
             <h2 className="text-xl font-bold mb-4">
-              {modalType === "add" ? "Thêm sản phẩm" : "Cập nhật sản phẩm"}
+              {modalType === "edit" ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}
             </h2>
-            <input
-              type="text"
-              placeholder="Tên sản phẩm"
-              value={
-                modalType === "add" ? newProduct.name : editProduct?.name || ""
-              }
-              onChange={(e) =>
-                modalType === "add"
-                  ? setNewProduct({ ...newProduct, name: e.target.value })
-                  : setEditProduct({ ...editProduct, name: e.target.value })
-              }
-              className="border p-2 mb-2 w-full"
-            />
-            <input
-              type="number"
-              placeholder="Giá sản phẩm"
-              value={
-                modalType === "add"
-                  ? newProduct.price
-                  : editProduct?.price || ""
-              }
-              onChange={(e) =>
-                modalType === "add"
-                  ? setNewProduct({ ...newProduct, price: e.target.value })
-                  : setEditProduct({ ...editProduct, price: e.target.value })
-              }
-              className="border p-2 mb-2 w-full"
-            />
-            <input
-              type="text"
-              placeholder="URL hình ảnh"
-              value={
-                modalType === "add"
-                  ? newProduct.avatar
-                  : editProduct?.avatar || ""
-              }
-              onChange={(e) =>
-                modalType === "add"
-                  ? setNewProduct({ ...newProduct, avatar: e.target.value })
-                  : setEditProduct({ ...editProduct, avatar: e.target.value })
-              }
-              className="border p-2 mb-4 w-full"
-            />
-            <div className="flex justify-end">
+
+            {/* Hiển thị ảnh sản phẩm */}
+            <div className="text-center mb-4">
+              <img
+                src={editProduct?.avatar || "https://via.placeholder.com/150"}
+                alt={editProduct?.name || "Placeholder"}
+                className="w-32 h-32 object-cover rounded-full mx-auto border"
+              />
+            </div>
+
+            {/* Form chỉnh sửa */}
+            <div className="space-y-4">
+              <div>
+                <label className="block font-medium mb-2">Tên sản phẩm</label>
+                <input
+                  type="text"
+                  value={editProduct?.name || ""}
+                  onChange={(e) =>
+                    setEditProduct({ ...editProduct, name: e.target.value })
+                  }
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block font-medium mb-2">Giá sản phẩm</label>
+                <input
+                  type="number"
+                  value={editProduct?.price || ""}
+                  onChange={(e) =>
+                    setEditProduct({ ...editProduct, price: e.target.value })
+                  }
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block font-medium mb-2">
+                  URL ảnh sản phẩm
+                </label>
+                <input
+                  type="text"
+                  value={editProduct?.avatar || ""}
+                  onChange={(e) =>
+                    setEditProduct({ ...editProduct, avatar: e.target.value })
+                  }
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                  placeholder="Nhập URL ảnh sản phẩm"
+                />
+              </div>
+            </div>
+
+            {/* Nút hành động */}
+            <div className="mt-6 flex justify-end space-x-2">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="bg-gray-500 text-white p-2 mr-2"
+                className="bg-gray-500 text-white px-4 py-2 rounded"
               >
-                Đóng
+                Hủy
               </button>
               <button
-                onClick={
-                  modalType === "add" ? handleAddProduct : handleUpdateProduct
-                }
-                className="bg-blue-500 text-white p-2"
+                onClick={handleUpdateProduct}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
               >
-                {modalType === "add" ? "Thêm" : "Cập nhật"}
+                Lưu
               </button>
             </div>
           </div>

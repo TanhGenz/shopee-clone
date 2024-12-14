@@ -6,9 +6,11 @@ import Register from "./components/register/Register";
 import NavBar from "./components/NavBar/NavBar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ProductList from "./components/ProductList/ProductList";
-import MainPage from "./components/mainPage/MainPage";
+
 import { useState } from "react";
 import "./App.css";
+import ProductDetail from "./components/ProductDetails/ProductDetail";
+import MainPage from "./components/mainPage/MainPage";
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/logout" element={<Login />} />
           <Route path="/ProductList" element={<ProductList />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/mainPage" element={<MainPage />} />
         </Routes>
       </div>

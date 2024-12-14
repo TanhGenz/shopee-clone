@@ -24,30 +24,42 @@ const Login = () => {
 
   return (
     <div>
-      <section className="login-container">
-        <div className="login-title"> Log in</div>
-        <form onSubmit={handleLogin}>
-          <label>USERNAME</label>
-          <input
-            type="text"
-            placeholder="Enter your username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
+      <div>
+        <section className="login-container login_Background">
+          <div className="form_Infor">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkSxrMLzuLbuA0kjtuvAbcCP-Is9s5l04BNA&s"
+              alt=""
+            />
+            <form onSubmit={handleLogin} className="form_Login ">
+              <h1 className="login-title"> Đăng Nhập</h1>
 
-          <label>PASSWORD</label>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            onChange={(e) => setUserpass(e.target.value)}
-          />
+              <input
+                type="text"
+                placeholder="Enter your username"
+                onChange={(e) => setUsername(e.target.value)}
+              />
 
-          <button type="submit"> Continue </button>
-        </form>
-        <div className="login-register"> Don't have an account yet? </div>
-        <Link className="login-register-link" to="/register">
-          Register one for free{" "}
-        </Link>
-      </section>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                onChange={(e) => setUserpass(e.target.value)}
+              />
+
+              <button type="submit" className="continue_Button">
+                {" "}
+                Continue{" "}
+              </button>
+              <div className="register_Shoppee">
+                <div className="login-register"> Bạn mới biết đến shoppee </div>
+                <Link className="login-register-link" to="/register">
+                  Đăng Ký ngay{" "}
+                </Link>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
       <Footer />
     </div>
   );

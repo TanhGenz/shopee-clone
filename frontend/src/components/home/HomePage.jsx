@@ -15,21 +15,15 @@ const HomePage = () => {
   const user = useSelector((state) => state.auth.login?.currentUser);
   // optional chaining => handle
   const userList = useSelector((state) => state.users.users?.allUsers);
-  const msg = useSelector((state) => state.users?.msg);
+  console.log(userList);
 
+  const msg = useSelector((state) => state.users?.msg);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   let axiosJWT = createAxios(user, dispatch, loginSuccess);
-
   const handleDelete = (id) => {
     deletleUsers(user?.accessToken, dispatch, id, axiosJWT);
   };
-
-  // REFRESH TOKEN
-
-  // new axios
-
   useEffect(() => {
     if (!user) {
       navigate("/MainPage");
@@ -38,13 +32,11 @@ const HomePage = () => {
       getAllUsers(user?.accessToken, dispatch, axiosJWT);
     }
   }, []);
-
   return (
     <main className="home-container">
       <div className="home-title">User List</div>
-
       <div className="home-userlist">
-        {userList?.map((user) => {
+        {/* {userList?.map((user) => {
           return (
             <div className="user-container">
               <div className="home-user">{user.username}</div>
@@ -57,12 +49,52 @@ const HomePage = () => {
               </div>
             </div>
           );
-        })}
+        })} */}
+
+        <table className="table-auto w-full border-collapse border border-gray-300 table_Data">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="border border-gray-300 px-4 py-2">STT</th>
+              {/* <th className="border border-gray-300 px-4 py-2">Hình ảnh</th>
+              <th className="border border-gray-300 px-4 py-2">Tên sản phẩm</th>
+              <th className="border border-gray-300 px-4 py-2">Mục Sản Phẩm</th>
+              <th className="border border-gray-300 px-4 py-2">Số lượng</th>
+              <th className="border border-gray-300 px-4 py-2">Giá</th> */}
+              <th className="border border-gray-300 px-4 py-2">Tên user </th>
+              <th className="border border-gray-300 px-4 py-2">Role </th>
+
+              <th className="border border-gray-300 px-4 py-2">Action </th>
+            </tr>
+          </thead>
+          <tbody>
+            {userList?.map((user, index) => (
+              <tr key={user.id} className="text-center">
+                <td className="border border-gray-300 px-4 py-2">{index++}</td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {user.username}
+                </td>
+
+                <td className="border border-gray-300 px-4 py-2">
+                  {user.isAdmin ? "Admin" : "User"}
+                </td>
+
+                <td className="border border-gray-300 px-4 py-2">
+                  <div
+                    className="delete-user"
+                    onClick={() => handleDelete(user._id)}
+                  >
+                    {" "}
+                    Delete{" "}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
       <div className="errorMsg">{msg}</div>
       <Footer />
     </main>
   );
 };
-
 export default HomePage;

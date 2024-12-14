@@ -67,10 +67,10 @@ export const getAllUsers = async (accessToken, dispatch, axiosJWT) => {
   }
 };
 
-export const deletleUsers = async (accessToken, dispatch, id, axiosJWT) => {
+export const deletleUsers = async (accessToken, dispatch, _id, axiosJWT) => {
   dispatch(deleteUsersStart());
   try {
-    const res = await axiosJWT.delete("http://localhost:8000/v1/user/" + id, {
+    const res = await axiosJWT.delete(`http://localhost:8000/v1/user/` + _id, {
       headers: { token: `Bearer ${accessToken}` },
     });
     dispatch(deleteUsersSuccess(res.data));

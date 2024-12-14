@@ -2,25 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 .total_Column {
+  width: 100%;
+  margin: 0;
   display: flex;
 }
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 cột */
   gap: 10px; /* Khoảng cách giữa các ảnh */
 }
-.bg-gray-100 {
-  background-color: #fbfbfb !important;
-}
+
 .footer_Item {
   display: block;
   align-items: center;
   justify-content: center;
-  margin-left: 50px;
-}
-.footer_Item {
   display: flex;
 }
+
 .grid-container img {
   width: 100%; /* Ảnh chiếm toàn bộ chiều rộng của cột */
   height: auto; /* Đảm bảo giữ đúng tỷ lệ khung hình */
@@ -48,5 +47,10 @@
   text-align: center;
 }
 .total_Column div {
-  width: 200px;
+  margin-top: 15px;
+  width: 260px;
+  margin-left: 35px;
+}
+.total_Column div ul {
+  margin-left: 35px;
 }
