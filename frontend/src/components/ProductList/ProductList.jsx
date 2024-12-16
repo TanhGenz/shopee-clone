@@ -8,9 +8,18 @@ export default function ProductList() {
     name: "",
     price: "",
     avatar: "",
+    productType: "",
+    Amount: 0,
   });
 
-  const [editProduct, setEditProduct] = useState(null);
+  const [editProduct, setEditProduct] = useState({
+    name: "",
+    price: "",
+    avatar: "",
+    productType: "",
+    Amount: 0,
+  });
+
   const [isModalOpen, setIsModalOpen] = useState(false); // Điều khiển hiển thị modal
   const [modalType, setModalType] = useState(""); // "add" hoặc "edit"
 
@@ -18,7 +27,12 @@ export default function ProductList() {
   const fetchProducts = () => {
     fetch("https://657eac8e3e3f5b189463f4b4.mockapi.io/api/products/products")
       .then((res) => res.json())
-      .then((data) => setDataSanPham(data));
+      .then((data) => {
+        setDataSanPham(data); // Cập nhật lại state với dữ liệu mới
+      })
+      .catch((error) => {
+        console.error("Lấy dữ liệu thất bại:", error);
+      });
   };
 
   useEffect(() => {
@@ -31,22 +45,38 @@ export default function ProductList() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newProduct),
-    }).then(() => {
-      fetchProducts();
-      setIsModalOpen(false); // Đóng modal
-    });
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setDataSanPham((prev) => [...prev, data]);
+        setIsModalOpen(false);
+        setNewProduct({
+          name: "",
+          price: "",
+          avatar: "",
+          productType: "",
+          Amount: 0,
+        });
+      });
   };
 
-  // Cập nhật sản phẩm
   const handleUpdateProduct = () => {
-    // Kiểm tra và cập nhật dữ liệu sản phẩm
     if (editProduct.name && editProduct.price && editProduct.avatar) {
-      setDataSanPham((prev) =>
-        prev.map((item) =>
-          item.id === editProduct.id ? { ...editProduct } : item
-        )
-      );
-      setIsModalOpen(false); // Đóng modal
+      fetch(
+        `https://657eac8e3e3f5b189463f4b4.mockapi.io/api/products/products/${editProduct.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(editProduct),
+        }
+      )
+        .then(() => {
+          fetchProducts(); // Gọi lại fetchProducts để lấy dữ liệu mới nhất
+          setIsModalOpen(false); // Đóng modal
+        })
+        .catch((error) => {
+          console.error("Cập nhật sản phẩm thất bại:", error);
+        });
     } else {
       alert("Vui lòng điền đầy đủ thông tin!");
     }
@@ -124,13 +154,14 @@ export default function ProductList() {
               <td className="border border-gray-300 px-4 py-2">
                 <button
                   onClick={() => {
-                    setEditProduct(product); // Lưu sản phẩm đang được sửa vào state
-                    openModal("edit");
+                    setEditProduct(product); // Đảm bảo truyền đúng sản phẩm
+                    openModal("edit"); // Hiển thị modal
                   }}
                   className="buttonEdit"
                 >
                   Sửa
                 </button>
+
                 <button
                   onClick={() => handleDeleteProduct(product.id)}
                   className="deleteButton"
@@ -160,43 +191,93 @@ export default function ProductList() {
             </div>
 
             {/* Form chỉnh sửa */}
-            <div className="space-y-4">
-              <div>
-                <label className="block font-medium mb-2">Tên sản phẩm</label>
-                <input
-                  type="text"
-                  value={editProduct?.name || ""}
-                  onChange={(e) =>
-                    setEditProduct({ ...editProduct, name: e.target.value })
-                  }
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
-              </div>
-              <div>
-                <label className="block font-medium mb-2">Giá sản phẩm</label>
-                <input
-                  type="number"
-                  value={editProduct?.price || ""}
-                  onChange={(e) =>
-                    setEditProduct({ ...editProduct, price: e.target.value })
-                  }
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
-              </div>
-              <div>
-                <label className="block font-medium mb-2">
-                  URL ảnh sản phẩm
-                </label>
-                <input
-                  type="text"
-                  value={editProduct?.avatar || ""}
-                  onChange={(e) =>
-                    setEditProduct({ ...editProduct, avatar: e.target.value })
-                  }
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                  placeholder="Nhập URL ảnh sản phẩm"
-                />
-              </div>
+            {/* Hiển thị ảnh sản phẩm */}
+
+            {/* Form chỉnh sửa */}
+            <div>
+              <label className="block font-medium mb-2">Tên sản phẩm</label>
+              <input
+                type="text"
+                value={
+                  modalType === "edit" ? editProduct.name : newProduct.name
+                }
+                onChange={(e) =>
+                  modalType === "edit"
+                    ? setEditProduct({ ...editProduct, name: e.target.value })
+                    : setNewProduct({ ...newProduct, name: e.target.value })
+                }
+                className="w-full border border-gray-300 rounded px-3 py-2"
+              />
+            </div>
+            <div>
+              <label className="block font-medium mb-2">Giá sản phẩm</label>
+              <input
+                type="number"
+                value={
+                  modalType === "edit" ? editProduct.price : newProduct.price
+                }
+                onChange={(e) =>
+                  modalType === "edit"
+                    ? setEditProduct({ ...editProduct, price: e.target.value })
+                    : setNewProduct({ ...newProduct, price: e.target.value })
+                }
+                className="w-full border border-gray-300 rounded px-3 py-2"
+              />
+            </div>
+            <div>
+              <label className="block font-medium mb-2">URL ảnh sản phẩm</label>
+              <input
+                type="text"
+                value={
+                  modalType === "edit" ? editProduct.avatar : newProduct.avatar
+                }
+                onChange={(e) =>
+                  modalType === "edit"
+                    ? setEditProduct({ ...editProduct, avatar: e.target.value })
+                    : setNewProduct({ ...newProduct, avatar: e.target.value })
+                }
+                className="w-full border border-gray-300 rounded px-3 py-2"
+                placeholder="Nhập URL ảnh sản phẩm"
+              />
+            </div>
+            <div>
+              <label className="block font-medium mb-2">Loại sản phẩm</label>
+              <input
+                type="text"
+                value={
+                  modalType === "edit"
+                    ? editProduct.productType
+                    : newProduct.productType
+                }
+                onChange={(e) =>
+                  modalType === "edit"
+                    ? setEditProduct({
+                        ...editProduct,
+                        productType: e.target.value,
+                      })
+                    : setNewProduct({
+                        ...newProduct,
+                        productType: e.target.value,
+                      })
+                }
+                className="w-full border border-gray-300 rounded px-3 py-2"
+                placeholder="Nhập loại sản phẩm"
+              />
+            </div>
+            <div>
+              <label className="block font-medium mb-2">Số lượng</label>
+              <input
+                type="number"
+                value={
+                  modalType === "edit" ? editProduct.Amount : newProduct.Amount
+                }
+                onChange={(e) =>
+                  modalType === "edit"
+                    ? setEditProduct({ ...editProduct, Amount: e.target.value })
+                    : setNewProduct({ ...newProduct, Amount: e.target.value })
+                }
+                className="w-full border border-gray-300 rounded px-3 py-2"
+              />
             </div>
 
             {/* Nút hành động */}
@@ -208,7 +289,13 @@ export default function ProductList() {
                 Hủy
               </button>
               <button
-                onClick={handleUpdateProduct}
+                onClick={() => {
+                  if (modalType === "add") {
+                    handleAddProduct();
+                  } else if (modalType === "edit") {
+                    handleUpdateProduct();
+                  }
+                }}
                 className="bg-blue-500 text-white px-4 py-2 rounded"
               >
                 Lưu
