@@ -37,11 +37,11 @@ export default function NavBar() {
               alt=""
             />
           </a>
-          <input
+          {/* <input
             placeholder="Shoppee bao ship 0đ - Đăng Ký ngay"
             type="search"
             id="site-search"
-          />
+          /> */}
           <p className="navbar-user">
             Hi: <span>{user.username}</span>
           </p>

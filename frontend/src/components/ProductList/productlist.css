@@ -1,6 +1,5 @@
 .product-list {
   font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
 }
 
 .product-list h1 {
@@ -14,6 +13,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
+  margin-top: 50px;
 }
 
 .data_List > div {
