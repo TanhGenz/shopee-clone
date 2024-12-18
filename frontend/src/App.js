@@ -6,7 +6,7 @@ import Register from "./components/register/Register";
 import NavBar from "./components/NavBar/NavBar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ProductList from "./components/ProductList/ProductList";
-
+import { CartContext } from "./FunctionRenderApi/CartContext";
 import { useState } from "react";
 import "./App.css";
 import ProductDetail from "./components/ProductDetails/ProductDetail";

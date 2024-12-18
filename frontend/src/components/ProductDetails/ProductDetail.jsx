@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { CartContext } from "../../FunctionRenderApi/CartContext";
 import "./ProductDetails.css";
 import { formatCurrency } from "../ExchangeMoney/formatCurrency";
+
 export default function ProductDetail() {
-  const { id } = useParams(); // Lấy ID sản phẩm từ URL
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
-    // Fetch chi tiết sản phẩm từ API
     fetch(
       `https://657eac8e3e3f5b189463f4b4.mockapi.io/api/products/products/${id}`
     )
@@ -17,23 +20,14 @@ export default function ProductDetail() {
 
   if (!product) return <p>Loading...</p>;
 
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    alert("Đã thêm vào giỏ hàng!");
+  };
+
   return (
     <div className="product-detail">
-      <div className=" p-4">
-        <h1>Chi tiết sản phẩm</h1>
-        <img
-          src={product.avatar}
-          alt={product.name}
-          className="w-full h-64 object-cover mb-4 rounded"
-        />
-        <div className="sharing_Button">
-          <p>Chia sẻ</p>
-          <i class="fab fa-facebook-messenger"></i>
-          <i class="fab fa-facebook-f"></i>
-          <i class="fab fa-pinterest"></i>
-          <i class="fab fa-linkedin"></i>
-        </div>
-      </div>
+      {/* Nội dung chi tiết sản phẩm */}
       <div className="details_Product">
         <h1 className="text-2xl font-bold">Tên sp: {product.name}</h1>
         <span>
@@ -42,15 +36,22 @@ export default function ProductDetail() {
             {formatCurrency(product.price)}
           </p>
         </span>
-        <p className="text-gray-700">Mô Tả :{product.description}</p>
+        <p className="text-gray-700">Mô Tả : {product.description}</p>
 
         <div className="numberAmount">
           <p>Số lượng</p>
-          <input type="number" name="" id="increaseNumber" />
+          <input
+            type="number"
+            id="increaseNumber"
+            value={quantity}
+            min="1"
+            onChange={(e) => setQuantity(Number(e.target.value))}
+          />
         </div>
         <div className="payingButton">
-          <button className="add_ProductButton">Thêm vào giỏ hàng</button>
-
+          <button className="add_ProductButton" onClick={handleAddToCart}>
+            Thêm vào giỏ hàng
+          </button>
           <button className="buy_Immediately">Mua ngay</button>
         </div>
       </div>

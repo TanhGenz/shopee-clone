@@ -6,6 +6,7 @@ import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 // import store from './redux/store';
 import "bootstrap/dist/css/bootstrap.min.css";
+import { CartProvider } from "./FunctionRenderApi/CartContext";
 // Chọn DOM node root
 const rootElement = document.getElementById("root");
 
@@ -16,7 +17,9 @@ const root = createRoot(rootElement);
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <App />
+      <CartProvider>
+        <App />
+      </CartProvider>
     </PersistGate>
   </Provider>
 );

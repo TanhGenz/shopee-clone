@@ -64,39 +64,6 @@ export default function MainPage() {
         ))}
       </Slider>
 
-      {/* Ô tìm kiếm */}
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Tìm kiếm sản phẩm..."
-          value={searchQuery}
-          onChange={handleSearch}
-          id="site-search"
-        />
-      </div>
-
-      {/* Danh sách loại sản phẩm */}
-      <div className="product-types">
-        {productTypes.map((category, index) => (
-          <button
-            key={index}
-            className={`category-item ${
-              selectedCategory === category.type ? "active" : ""
-            }`}
-            onClick={() => handleCategorySelect(category.type)}
-          >
-            <span className="icon">{category.icon}</span>
-            {category.name}
-          </button>
-        ))}
-        <button
-          className={`category-item ${selectedCategory === "" ? "active" : ""}`}
-          onClick={() => handleCategorySelect("")}
-        >
-          Tất cả
-        </button>
-      </div>
-
       {/* Danh sách sản phẩm */}
       <div>
         <div className="data_List grid grid-cols-3 gap-4">
@@ -115,7 +82,6 @@ export default function MainPage() {
               <p className="text-green-600 font-semibold">
                 {formatCurrency(product.price)}
               </p>
-              <button>Add to cart</button>
             </div>
           ))}
         </div>
