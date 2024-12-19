@@ -40,9 +40,31 @@
 .category-button:hover {
   background-color: #f0f0f0;
 }
-#site-search {
-  width: 500px;
-  position: absolute;
-  right: 30%;
-  border: 2px solid black;
+/* Styles for the search bar */
+.search-bar {
+  margin-top: 30px;
+  position: relative;
+  left: 50px;
+  text-align: center;
+}
+
+.search-bar input {
+  width: 40%; /* Chiều rộng của ô tìm kiếm */
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ddd; /* Viền mỏng */
+  border-radius: 25px; /* Bo tròn viền */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+  transition: all 0.3s ease-in-out; /* Hiệu ứng khi hover hoặc focus */
+}
+
+.search-bar input:focus {
+  outline: none; /* Xóa viền mặc định khi focus */
+  border-color: #4caf50; /* Đổi màu viền */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Tăng hiệu ứng đổ bóng */
+}
+
+.search-bar input::placeholder {
+  color: #aaa; /* Màu placeholder */
+  font-style: italic; /* Kiểu chữ in nghiêng cho placeholder */
 }

@@ -63,7 +63,14 @@ export default function MainPage() {
           <img key={index} src={image.imgURL} alt={image.imgAlt} />
         ))}
       </Slider>
-
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Tìm kiếm sản phẩm..."
+          value={searchQuery}
+          onChange={handleSearch}
+        />
+      </div>
       {/* Danh sách sản phẩm */}
       <div>
         <div className="data_List grid grid-cols-3 gap-4">
