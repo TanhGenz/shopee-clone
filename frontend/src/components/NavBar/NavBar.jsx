@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./navbar.css";
 import { logOut } from "../../redux/apiRequest";
@@ -12,37 +12,128 @@ import { formatCurrency } from "../ExchangeMoney/formatCurrency";
 export default function NavBar() {
   const { cart, addToCart, setCart } = useContext(CartContext);
   const user = useSelector((state) => state.auth.login.currentUser);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
   const accessToken = user?.accessToken;
+  const cartArray = Object.values(cart); // Chuyển đổi cart thành mảng khi cần tính toán
 
-  const id = user?._id;
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const decreaseQuantity = (item) => {
-    const updatedCart = cart
+    const updatedCart = cartArray
       .map((cartItem) => {
         if (cartItem.id === item.id) {
-          // Nếu số lượng > 1 thì giảm
           if (cartItem.quantity > 1) {
             return { ...cartItem, quantity: cartItem.quantity - 1 };
           } else {
-            // Nếu số lượng = 1 thì xóa sản phẩm
             return null;
           }
         }
         return cartItem;
       })
-      .filter(Boolean); // Loại bỏ các sản phẩm null
+      .filter(Boolean); // Loại bỏ các phần tử null
     setCart(updatedCart);
+    calculateTotalAmount(updatedCart);
   };
+
   const increaseQuantity = (item) => {
-    const updatedCart = cart.map((cartItem) => {
+    const updatedCart = cartArray.map((cartItem) => {
       if (cartItem.id === item.id) {
         return { ...cartItem, quantity: cartItem.quantity + 1 };
       }
       return cartItem;
     });
     setCart(updatedCart);
+    calculateTotalAmount(updatedCart);
   };
+
+  const handleAddToCart = (item) => {
+    if (!user) {
+      alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!");
+      navigate("/login");
+      return;
+    }
+
+    const existingItem = cartArray.find((cartItem) => cartItem.id === item.id);
+
+    let updatedCart;
+
+    if (existingItem) {
+      updatedCart = cartArray.map((cartItem) => {
+        if (cartItem.id === item.id) {
+          return { ...cartItem, quantity: cartItem.quantity + 1 };
+        }
+        return cartItem;
+      });
+    } else {
+      updatedCart = [...cartArray, { ...item, quantity: 1 }];
+    }
+
+    setCart(updatedCart);
+  };
+  const calculateTotalAmount = (cartArray) => {
+    const total = cartArray.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    setTotalAmount(total);
+  };
+
+  const id = user?._id;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // const decreaseQuantity = (item) => {
+  //   const updatedCart = cartArray
+  //     .map((cartItem) => {
+  //       if (cartItem.id === item.id) {
+  //         if (cartItem.quantity > 1) {
+  //           return { ...cartItem, quantity: cartItem.quantity - 1 };
+  //         } else {
+  //           return null;
+  //         }
+  //       }
+  //       return cartItem;
+  //     })
+  //     .filter(Boolean);
+  //   setCart(updatedCart);
+  //   calculateTotalAmount(updatedCart);
+  // };
+
+  // const increaseQuantity = (item) => {
+  //   const updatedCart = cartArray.map((cartItem) => {
+  //     if (cartItem.id === item.id) {
+  //       return { ...cartItem, quantity: cartItem.quantity + 1 };
+  //     }
+  //     return cartItem;
+  //   });
+  //   setCart(updatedCart);
+  //   calculateTotalAmount(updatedCart);
+  // };
+
+  // const handleAddToCart = (item) => {
+  //   if (!user) {
+  //     alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!");
+  //     navigate("/login");
+  //     return;
+  //   }
+
+  //   const existingItem = cartArray.find((cartItem) => cartItem.id === item.id);
+
+  //   let updatedCart;
+
+  //   if (existingItem) {
+  //     // Nếu sản phẩm đã tồn tại, tăng số lượng
+  //     updatedCart = cartArray.map((cartItem) => {
+  //       if (cartItem.id === item.id) {
+  //         return { ...cartItem, quantity: cartItem.quantity + 1 };
+  //       }
+  //       return cartItem;
+  //     });
+  //   } else {
+  //     // Nếu sản phẩm chưa tồn tại, thêm mới
+  //     updatedCart = [...cartArray, { ...item, quantity: 1 }];
+  //   }
+
+  //   setCart(updatedCart); // React sẽ tự động kích hoạt useEffect để tính tổng tiền
+  // };
 
   const [showCart, setShowCart] = useState(false); // Trạng thái hiển thị danh sách sản phẩm
   let axiosJWT = createAxios(user, dispatch, logOutSuccess);
@@ -55,25 +146,13 @@ export default function NavBar() {
     setShowCart(!showCart);
   };
 
-  const handleAddToCart = (item) => {
-    if (!user) {
-      // Hiển thị thông báo nếu chưa đăng nhập
-      alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!");
-      navigate("/login"); // Chuyển hướng đến trang đăng nhập
-      return;
-    }
-
-    // Nếu đã đăng nhập, thêm sản phẩm vào giỏ hàng
-    addToCart(item);
-    alert("Sản phẩm đã được thêm vào giỏ hàng!");
-  };
+  useEffect(() => {
+    calculateTotalAmount(cartArray);
+  }, [cartArray]); // Tự động tính tổng tiền mỗi khi giỏ hàng thay đổi
 
   const handleCheckout = () => {
-    if (!user) {
-      alert("Bạn cần đăng nhập để thực hiện thanh toán!");
-      navigate("/login");
-      return;
-    }
+    setCart([]);
+    navigate("/Checkout");
     // Logic thanh toán tiếp theo
     alert("Tiến hành thanh toán...");
   };
@@ -95,9 +174,9 @@ export default function NavBar() {
         {/* Dropdown hiển thị sản phẩm */}
         {showCart && (
           <div className="cart-dropdown">
-            {cart.length > 0 ? (
+            {cartArray.length > 0 ? (
               <>
-                {cart.map((item, index) => (
+                {cartArray.map((item, index) => (
                   <div key={index} className="cart-item">
                     <img src={item.avatar} alt={item.name} />{" "}
                     {/* Hình ảnh sản phẩm */}
@@ -122,9 +201,18 @@ export default function NavBar() {
                     </div>
                   </div>
                 ))}
+
+                <div className="cart-total">
+                  <p>
+                    Tổng số lượng sản phẩm:{" "}
+                    {cartArray.reduce((sum, item) => sum + item.quantity, 0)}
+                  </p>
+                  <h4>Tổng số tiền: {formatCurrency(totalAmount)}</h4>
+                </div>
                 <div className="cart-footer">
-                  <button onClick={() => navigate("/checkout")}>
-                    Thanh Toán
+                  <button onClick={handleCheckout} className="checkout-button">
+                    {console.log(typeof cartArray)}
+                    Thanh toán
                   </button>
                 </div>
               </>
@@ -143,7 +231,7 @@ export default function NavBar() {
             <div className="cart-container">
               <button onClick={toggleCart}>
                 <FaShoppingCart />
-                {cart.length > 0 && <span>{cart.length}</span>}
+                {cartArray.length > 0 && <span>{cartArray.length}</span>}
               </button>
 
               {showCart && (

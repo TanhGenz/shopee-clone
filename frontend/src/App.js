@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ProductList from "./components/ProductList/ProductList";
 import { CartContext } from "./FunctionRenderApi/CartContext";
 import { useState } from "react";
+import CheckOut from "./components/checkout/CheckOut";
 import "./App.css";
 import ProductDetail from "./components/ProductDetails/ProductDetail";
 import MainPage from "./components/mainPage/MainPage";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/ProductList" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/mainPage" element={<MainPage />} />
+          <Route path="/CheckOut" element={<CheckOut />} />
         </Routes>
       </div>
     </Router>
