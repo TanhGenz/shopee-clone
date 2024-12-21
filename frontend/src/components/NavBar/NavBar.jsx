@@ -11,28 +11,65 @@ import { Button } from "react-bootstrap";
 import { formatCurrency } from "../ExchangeMoney/formatCurrency";
 export default function NavBar() {
   const { cart, addToCart, setCart } = useContext(CartContext);
+  console.log(cart);
+
+  let updatedCart;
   const user = useSelector((state) => state.auth.login.currentUser);
   const [totalAmount, setTotalAmount] = useState(0);
+
   const [totalPrice, setTotalPrice] = useState(0);
   const accessToken = user?.accessToken;
   const cartArray = Object.values(cart); // Chuyển đổi cart thành mảng khi cần tính toán
+  useEffect(() => {
+    // Lấy giỏ hàng từ localStorage
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
+  useEffect(() => {
+    // Lưu giỏ hàng vào localStorage
+    localStorage.setItem("cart", JSON.stringify(cartArray));
+  }, [cartArray]);
+
+  // const decreaseQuantity = (item) => {
+  //   const updatedCart = cartArray
+  //     .map((cartItem) => {
+  //       if (cartItem.id === item.id) {
+  //         if (cartItem.quantity > 1) {
+  //           return { ...cartItem, quantity: cartItem.quantity - 1 };
+  //         } else {
+  //           return null;
+  //         }
+  //       }
+  //       return cartItem;
+  //     })
+  //     .filter(Boolean); // Loại bỏ các phần tử null
+  //   setCart(updatedCart);
+  //   calculateTotalAmount(updatedCart);
+  // };
 
   const decreaseQuantity = (item) => {
     const updatedCart = cartArray
       .map((cartItem) => {
-        if (cartItem.id === item.id) {
-          if (cartItem.quantity > 1) {
-            return { ...cartItem, quantity: cartItem.quantity - 1 };
-          } else {
-            return null;
-          }
+        if (cartItem.id === item.id && cartItem.quantity > 1) {
+          return { ...cartItem, quantity: cartItem.quantity - 1 };
         }
         return cartItem;
       })
-      .filter(Boolean); // Loại bỏ các phần tử null
+      .filter(Boolean);
     setCart(updatedCart);
-    calculateTotalAmount(updatedCart);
   };
+  // const increaseQuantity = (item) => {
+  //   const updatedCart = cartArray.map((cartItem) => {
+  //     if (cartItem.id === item.id) {
+  //       return { ...cartItem, quantity: cartItem.quantity + 1 };
+  //     }
+  //     return cartItem;
+  //   });
+  //   setCart(updatedCart);
+  //   calculateTotalAmount(updatedCart);
+  // };
 
   const increaseQuantity = (item) => {
     const updatedCart = cartArray.map((cartItem) => {
@@ -42,19 +79,22 @@ export default function NavBar() {
       return cartItem;
     });
     setCart(updatedCart);
-    calculateTotalAmount(updatedCart);
   };
-
   const handleAddToCart = (item) => {
     if (!user) {
       alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!");
       navigate("/login");
       return;
     }
-
     const existingItem = cartArray.find((cartItem) => cartItem.id === item.id);
-
-    let updatedCart;
+    const updatedCart = existingItem
+      ? cartArray.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        )
+      : [...cartArray, { ...item, quantity: 1 }];
+    setCart(updatedCart);
 
     if (existingItem) {
       updatedCart = cartArray.map((cartItem) => {
@@ -69,18 +109,10 @@ export default function NavBar() {
 
     setCart(updatedCart);
   };
-  const calculateTotalAmount = (cartArray) => {
-    const total = cartArray.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
-    setTotalAmount(total);
-  };
-
   const id = user?._id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const decreaseQuantity = (item) => {
+
   //   const updatedCart = cartArray
   //     .map((cartItem) => {
   //       if (cartItem.id === item.id) {
@@ -145,7 +177,13 @@ export default function NavBar() {
   const toggleCart = () => {
     setShowCart(!showCart);
   };
-
+  const calculateTotalAmount = (cartArray) => {
+    const total = cartArray.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    setTotalAmount(total);
+  };
   useEffect(() => {
     calculateTotalAmount(cartArray);
   }, [cartArray]); // Tự động tính tổng tiền mỗi khi giỏ hàng thay đổi
@@ -153,10 +191,8 @@ export default function NavBar() {
   const handleCheckout = () => {
     setCart([]);
     navigate("/Checkout");
-    // Logic thanh toán tiếp theo
     alert("Tiến hành thanh toán...");
   };
-
   return (
     <nav className="navbar-container">
       <a href="/MainPage">

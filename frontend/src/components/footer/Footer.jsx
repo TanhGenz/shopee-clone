@@ -126,7 +126,7 @@ export default function Footer() {
                 alt="qr"
                 className="w-16 h-16"
               />
-              <div className="ml-4">
+              <div>
                 <img
                   src="https://down-vn.img.susercontent.com/file/ad01628e90ddf248076685f73497c163"
                   alt="app store"

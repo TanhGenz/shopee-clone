@@ -1,10 +1,37 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const [totalAmount, setTotalAmount] = useState(0);
+  // Chuyển đổi cart thành mảng khi cần tính toán
   const [cart, setCart] = useState([]); // Khai báo cart và setCart trong context
-
+  // useEffect(() => {
+  //   // Khởi tạo giỏ hàng từ Local Storage
+  //   const storedCart = localStorage.getItem("cart");
+  //   if (storedCart) {
+  //     setCart(JSON.parse(storedCart));
+  //   }
+  // }, []);
+  // const calculateTotalAmount = (cartArray) => {
+  //   const total = cartArray.reduce(
+  //     (sum, item) => sum + item.price * item.quantity,
+  //     0
+  //   );
+  //   setTotalAmount(total);
+  // };
+  // const handleCheckout = () => {
+  //   setCart([]);
+  //   localStorage.removeItem("cart"); // Xóa giỏ hàng khỏi Local Storage
+  //   Navigate("/Checkout");
+  //   alert("Tiến hành thanh toán...");
+  // };
+  // useEffect(() => {
+  //   // Cập nhật Local Storage mỗi khi giỏ hàng thay đổi
+  //   calculateTotalAmount(cartArray);
+  //   localStorage.setItem("cart", JSON.stringify(cartArray));
+  // }, [cartArray]);
   const addToCart = (item) => {
     const itemIndex = cart.findIndex((cartItem) => cartItem.id === item.id);
     if (itemIndex === -1) {

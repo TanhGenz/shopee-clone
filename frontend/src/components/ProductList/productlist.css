@@ -11,8 +11,8 @@
 
 .data_List {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+
   margin-top: 50px;
 }
 
@@ -81,7 +81,6 @@
 .data_List .buttons {
   display: flex;
   justify-content: center;
-  gap: 10px;
 }
 .navbar-user {
   display: flex;

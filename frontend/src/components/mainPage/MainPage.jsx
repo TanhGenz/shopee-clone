@@ -15,7 +15,7 @@ export default function MainPage() {
 
   const productTypes = [
     { name: "Iphone", type: "Device", icon: "📱" },
-    { name: "Áo khoác", type: "laptop", icon: "💻" },
+    { name: "Áo khoác", type: "laptop", icon: "🧥" },
     { name: "Tai nghe", type: "headphone", icon: "🎧" },
     { name: "Đồng hồ", type: "watch", icon: "⌚" },
   ];
@@ -70,6 +70,26 @@ export default function MainPage() {
           value={searchQuery}
           onChange={handleSearch}
         />
+      </div>
+      <div className="product-types">
+        {productTypes.map((category, index) => (
+          <button
+            key={index}
+            className={`category-item ${
+              selectedCategory === category.type ? "active" : ""
+            }`}
+            onClick={() => handleCategorySelect(category.type)}
+          >
+            <span className="icon">{category.icon}</span>
+            {category.name}
+          </button>
+        ))}
+        <button
+          className={`category-item ${selectedCategory === "" ? "active" : ""}`}
+          onClick={() => handleCategorySelect("")}
+        >
+          Tất cả
+        </button>
       </div>
       {/* Danh sách sản phẩm */}
       <div>

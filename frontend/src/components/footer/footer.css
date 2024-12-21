@@ -2,9 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 .total_Column {
-  width: 100%;
+  width: auto;
   margin: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .grid-container {
@@ -25,9 +26,13 @@
   height: auto; /* Đảm bảo giữ đúng tỷ lệ khung hình */
 }
 .container_Footer {
+  width: auto;
   display: grid;
   grid-template-columns: repeat(5fr, 1);
   grid-template-rows: repeat(3fr, 1);
+}
+.footer_Container {
+  width: auto;
 }
 .grid-container {
   display: grid;

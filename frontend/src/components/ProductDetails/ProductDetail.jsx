@@ -38,16 +38,6 @@ export default function ProductDetail() {
         </span>
         <p className="text-gray-700">Mô Tả : {product.description}</p>
 
-        <div className="numberAmount">
-          <p>Số lượng</p>
-          <input
-            type="number"
-            id="increaseNumber"
-            value={quantity}
-            min="1"
-            onChange={(e) => setQuantity(Number(e.target.value))}
-          />
-        </div>
         <div className="payingButton">
           <button className="add_ProductButton" onClick={handleAddToCart}>
             Thêm vào giỏ hàng
