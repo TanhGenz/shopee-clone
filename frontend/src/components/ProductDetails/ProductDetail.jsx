@@ -45,6 +45,9 @@ export default function ProductDetail() {
           <button className="buy_Immediately">Mua ngay</button>
         </div>
       </div>
+      <div className="img_Details">
+        <img src={product.avatar} alt="" />
+      </div>
     </div>
   );
 }

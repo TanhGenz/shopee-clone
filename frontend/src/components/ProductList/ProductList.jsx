@@ -110,7 +110,7 @@ export default function ProductList() {
       {/* Nút thêm sản phẩm */}
       <button
         onClick={() => openModal("add")}
-        className="bg-green-500 text-white px-4 py-2 rounded mb-4"
+        className="addProductButton bg-green-500 text-white px-4 py-2 rounded mb-4"
       >
         Thêm sản phẩm
       </button>
@@ -151,7 +151,7 @@ export default function ProductList() {
               <td className="border border-gray-300 px-4 py-2 text-green-600 font-semibold">
                 {formatCurrency(product.price)}
               </td>
-              <td className="border border-gray-300 px-4 py-2">
+              <td className="border border-gray-300 px-4 py-2 button_Function">
                 <button
                   onClick={() => {
                     setEditProduct(product); // Đảm bảo truyền đúng sản phẩm

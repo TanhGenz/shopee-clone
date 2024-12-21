@@ -102,6 +102,7 @@
   height: auto;
 }
 .container__slider {
+  margin-top: 50px;
   width: 700px;
   height: auto;
   margin-left: 500px;

@@ -220,31 +220,8 @@ export default function NavBar() {
                       <h5>{item.name}</h5>
                       <p>{formatCurrency(item.price)}</p>
                     </div>
-                    <div className="cart-item-quantity">
-                      <button
-                        className="decreaseButton"
-                        onClick={() => decreaseQuantity(item)}
-                      >
-                        -
-                      </button>
-                      <span>{item.quantity}</span>
-                      <button
-                        className="increaseButton"
-                        onClick={() => increaseQuantity(item)}
-                      >
-                        +
-                      </button>
-                    </div>
                   </div>
                 ))}
-
-                <div className="cart-total">
-                  <p>
-                    Tổng số lượng sản phẩm:{" "}
-                    {cartArray.reduce((sum, item) => sum + item.quantity, 0)}
-                  </p>
-                  <h4>Tổng số tiền: {formatCurrency(totalAmount)}</h4>
-                </div>
                 <div className="cart-footer">
                   <button onClick={handleCheckout} className="checkout-button">
                     {console.log(typeof cartArray)}
@@ -285,7 +262,9 @@ export default function NavBar() {
           {/* Chỉ hiển thị nút "Product List" cho admin */}
           {user.isAdmin && (
             <Link to={"/ProductList"}>
-              <Button variant="secondary">User List Product</Button>
+              <Button className="userList" variant="secondary">
+                User List Product
+              </Button>
             </Link>
           )}
 
@@ -305,4 +284,43 @@ export default function NavBar() {
       )}
     </nav>
   );
+}
+
+{
+  /* <div className="cart-item-quantity">
+<button
+  className="decreaseButton"
+  onClick={() => decreaseQuantity(item)}
+>
+  -
+</button>
+<span className="quantity_Cart">{item.quantity}</span>
+<button
+  className="increaseButton"
+  onClick={() => increaseQuantity(item)}
+>
+  +
+</button>
+</div> */
+}
+
+{
+  /* <div className="footer_Cart">
+<div className="cart-total">
+  <p>
+    Tổng số lượng sản phẩm:{" "}
+    {cartArray.reduce((sum, item) => sum + item.quantity, 0)}
+  </p>
+  <h4>Tổng số tiền: {formatCurrency(totalAmount)}</h4>
+</div>
+<div className="cart-footer">
+  <button
+    onClick={handleCheckout}
+    className="checkout-button"
+  >
+    {console.log(typeof cartArray)}
+    Thanh toán
+  </button>
+</div>
+</div> */
 }

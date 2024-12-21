@@ -20,7 +20,7 @@
 }
 .product-detail img {
   border-radius: 8px;
-
+  margin-left: 50px;
   object-fit: cover;
   margin-bottom: 20px;
   width: 200px;
@@ -37,6 +37,7 @@
 }
 .buy_Immediately {
   background-color: #d3132b;
+  color: white;
 }
 .sharing_Button {
   display: flex;

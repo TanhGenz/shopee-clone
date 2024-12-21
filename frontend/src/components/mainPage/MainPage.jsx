@@ -15,7 +15,7 @@ export default function MainPage() {
 
   const productTypes = [
     { name: "Iphone", type: "Device", icon: "📱" },
-    { name: "Áo khoác", type: "laptop", icon: "🧥" },
+    { name: "Áo khoác", type: "Fashion", icon: "🧥" },
     { name: "Tai nghe", type: "headphone", icon: "🎧" },
     { name: "Đồng hồ", type: "watch", icon: "⌚" },
   ];
@@ -80,8 +80,10 @@ export default function MainPage() {
             }`}
             onClick={() => handleCategorySelect(category.type)}
           >
-            <span className="icon">{category.icon}</span>
-            {category.name}
+            <div className="contentName">
+              <span className="icon">{category.icon}</span>
+              <span className="iconName">{category.name}</span>
+            </div>
           </button>
         ))}
         <button
