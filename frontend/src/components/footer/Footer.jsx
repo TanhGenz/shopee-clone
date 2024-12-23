@@ -121,12 +121,14 @@ export default function Footer() {
           <div>
             <h1 className="text-lg font-bold mb-4">Tải ứng dụng Shopee</h1>
             <div className="footer_Item">
-              <img
-                src="https://down-vn.img.susercontent.com/file/a5e589e8e118e937dc660f224b9a1472"
-                alt="qr"
-                className="w-16 h-16"
-              />
               <div>
+                <img
+                  src="https://down-vn.img.susercontent.com/file/a5e589e8e118e937dc660f224b9a1472"
+                  alt="qr"
+                  className="w-16 h-16"
+                />
+              </div>
+              <div className="imageFooter">
                 <img
                   src="https://down-vn.img.susercontent.com/file/ad01628e90ddf248076685f73497c163"
                   alt="app store"

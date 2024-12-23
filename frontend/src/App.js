@@ -12,6 +12,7 @@ import CheckOut from "./components/checkout/CheckOut";
 import "./App.css";
 import ProductDetail from "./components/ProductDetails/ProductDetail";
 import MainPage from "./components/mainPage/MainPage";
+import ZaloButton from "./components/zaloButton/ZaloButton";
 
 function App() {
   return (

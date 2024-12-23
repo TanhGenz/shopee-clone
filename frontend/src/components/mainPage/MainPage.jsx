@@ -5,7 +5,7 @@ import { formatCurrency } from "../ExchangeMoney/formatCurrency";
 import Footer from "../footer/Footer";
 import Slider from "../slider/Slider";
 import images from "../slider/images";
-
+import ZaloButton from "../zaloButton/ZaloButton";
 export default function MainPage() {
   const [dataSanPham, setDataSanPham] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]); // Sản phẩm sau khi lọc
@@ -114,6 +114,7 @@ export default function MainPage() {
             </div>
           ))}
         </div>
+        <ZaloButton />
       </div>
 
       <Footer />

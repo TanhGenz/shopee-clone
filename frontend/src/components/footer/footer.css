@@ -32,7 +32,7 @@
   grid-template-rows: repeat(3fr, 1);
 }
 .footer_Container {
-  width: auto;
+  width: 100%;
 }
 .grid-container {
   display: grid;
@@ -51,11 +51,11 @@
   font-size: medium;
   text-align: center;
 }
-.total_Column div {
-  margin-top: 15px;
-  width: 260px;
-  margin-left: 35px;
-}
+
 .total_Column div ul {
   margin-left: 35px;
+}
+.imageFooter {
+  margin: 0;
+  padding: 0;
 }
