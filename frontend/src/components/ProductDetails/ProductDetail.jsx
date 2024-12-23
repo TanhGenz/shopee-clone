@@ -3,13 +3,15 @@ import { useParams } from "react-router-dom";
 import { CartContext } from "../../FunctionRenderApi/CartContext";
 import "./ProductDetails.css";
 import { formatCurrency } from "../ExchangeMoney/formatCurrency";
-
+import { LoveContext } from "../../FunctionRenderApi/LoveContext";
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useContext(CartContext);
-
+  const handleLove = () => {
+    alert("thêm vào yêu thích thành công");
+  };
   useEffect(() => {
     fetch(
       `https://657eac8e3e3f5b189463f4b4.mockapi.io/api/products/products/${id}`
@@ -42,7 +44,9 @@ export default function ProductDetail() {
           <button className="add_ProductButton" onClick={handleAddToCart}>
             Thêm vào giỏ hàng
           </button>
-          <button className="buy_Immediately">Mua ngay</button>
+          <button onClick={handleLove} className="buy_Immediately">
+            ❤️
+          </button>
         </div>
       </div>
       <div className="img_Details">

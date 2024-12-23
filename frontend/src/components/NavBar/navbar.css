@@ -1,18 +1,14 @@
 .navbar-container {
   display: flex;
   padding: 1rem 1.5rem;
-  justify-content: flex-end;
+  justify-content: flex-start;
   background-color: orangered !important;
   align-items: center;
+  color: black;
 }
 .navbar-login {
   color: white;
 }
-.navbar-container {
-  display: flex;
-  color: black;
-}
-
 .navbar-logout {
   color: white;
 }
@@ -26,15 +22,28 @@
   text-decoration: none;
   font-weight: 600;
 }
+.right_MainPage {
+  display: flex;
+}
 .img_Header {
   width: 150px;
-  margin-right: 1100px;
+  float: left;
 }
 
 .navbar-home {
   color: rgb(163, 162, 162);
 }
+.love_List {
+  margin-top: 25px;
+  display: flex;
+  position: relative;
 
+  justify-content: center;
+}
+.love_List h1 {
+  font-size: 15px;
+  width: max-content;
+}
 .navbar-register {
   color: rgb(255, 255, 255);
 
@@ -58,9 +67,17 @@
 .cart-container {
   position: relative;
   cursor: pointer;
+  display: flex;
+  margin-top: 10px;
+}
+.cart-containerTwo {
+  display: flex;
 }
 .cart-container .quantity_Cart {
   position: relative;
+}
+.cart_Name {
+  margin-top: 10px;
 }
 .cart-icon {
   display: flex;
