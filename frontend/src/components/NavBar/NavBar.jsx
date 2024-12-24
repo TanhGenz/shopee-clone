@@ -12,14 +12,19 @@ import { Button } from "react-bootstrap";
 import { formatCurrency } from "../ExchangeMoney/formatCurrency";
 export default function NavBar() {
   const { cart, addToCart, setCart } = useContext(CartContext);
+  const { loveList, addToLove, setLoveList } = useContext(LoveContext);
   console.log(cart);
+  console.log("danh sách yêu thích hiện có", loveList);
 
   let updatedCart;
+  let updateLoveCart;
   const user = useSelector((state) => state.auth.login.currentUser);
   const [totalAmount, setTotalAmount] = useState(0);
 
   const [totalPrice, setTotalPrice] = useState(0);
   const accessToken = user?.accessToken;
+  const loveArray = Object.values(loveList);
+  console.log(loveArray);
 
   const cartArray = Object.values(cart); // Chuyển đổi cart thành mảng khi cần tính toán
   useEffect(() => {
@@ -34,6 +39,17 @@ export default function NavBar() {
     localStorage.setItem("cart", JSON.stringify(cartArray));
   }, [cartArray]);
 
+  //lưu danh sách yêu thích vào localstorage
+  useEffect(() => {
+    const storedLove = localStorage.getItem("loveList");
+    if (storedLove) {
+      setLoveList(JSON.parse(storedLove));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("loveList", JSON.stringify(loveArray));
+  }, [loveArray]);
   // const decreaseQuantity = (item) => {
   //   const updatedCart = cartArray
   //     .map((cartItem) => {
@@ -82,6 +98,31 @@ export default function NavBar() {
     });
     setCart(updatedCart);
   };
+
+  const handleAddToLove = (items) => {
+    if (!user) {
+      alert("Bạn cần đăng nhập để thêm sản phẩm vào danh sách yêu thích");
+      navigate("/login");
+      return;
+    }
+
+    setLoveList((prevLoveList) => {
+      const existingItems = prevLoveList.find(
+        (loveItem) => loveItem.id === items.id
+      );
+
+      if (existingItems) {
+        return prevLoveList.map((loveItem) =>
+          loveItem.id === items.id
+            ? { ...loveItem, quantity: loveItem.quantity + 1 }
+            : loveItem
+        );
+      } else {
+        return [...prevLoveList, { ...items, quantity: 1 }];
+      }
+    });
+  };
+
   const handleAddToCart = (item) => {
     if (!user) {
       alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!");
@@ -170,10 +211,17 @@ export default function NavBar() {
   // };
 
   const [showCart, setShowCart] = useState(false); // Trạng thái hiển thị danh sách sản phẩm
+
+  const [showLove, setshowLove] = useState(false); // Trạng thái hiển thị danh sách sản phẩm
+
   let axiosJWT = createAxios(user, dispatch, logOutSuccess);
 
   const handleLogout = () => {
     logOut(dispatch, id, navigate, accessToken, axiosJWT);
+  };
+
+  const toggleLoveCart = () => {
+    setshowLove(!showLove);
   };
 
   const toggleCart = () => {
@@ -206,92 +254,134 @@ export default function NavBar() {
           />
         </a>
       </div>
+      <div className="right_MainPage">
+        {/* Icon giỏ hàng */}
+        <div className="cart-containe">
+          <div onClick={toggleCart} className="cart-icon"></div>
 
-      {/* Icon giỏ hàng */}
-      <div className="cart-containe">
-        <div onClick={toggleCart} className="cart-icon"></div>
-
-        {/* Dropdown hiển thị sản phẩm */}
-        {showCart && (
-          <div className="cart-dropdown">
-            {cartArray.length > 0 ? (
-              <>
-                {cartArray.map((item, index) => (
-                  <div key={index} className="cart-item">
-                    <img src={item.avatar} alt={item.name} />{" "}
-                    {/* Hình ảnh sản phẩm */}
-                    <div className="cart-item-info">
-                      <h5>{item.name}</h5>
-                      <p>{formatCurrency(item.price)}</p>
+          {/* Dropdown hiển thị sản phẩm */}
+          {showCart && (
+            <div className="cart-dropdown">
+              {cartArray.length > 0 ? (
+                <>
+                  {cartArray.map((item, index) => (
+                    <div key={index} className="cart-item">
+                      <img src={item.avatar} alt={item.name} />{" "}
+                      {/* Hình ảnh sản phẩm */}
+                      <div className="cart-item-info">
+                        <h5>{item.name}</h5>
+                        <p>{formatCurrency(item.price)}</p>
+                      </div>
                     </div>
+                  ))}
+                  <div className="cart-footer">
+                    <button
+                      onClick={handleCheckout}
+                      className="checkout-button"
+                    >
+                      {console.log(typeof cartArray)}
+                      Thanh toán
+                    </button>
                   </div>
-                ))}
-                <div className="cart-footer">
-                  <button onClick={handleCheckout} className="checkout-button">
-                    {console.log(typeof cartArray)}
-                    Thanh toán
-                  </button>
-                </div>
-              </>
-            ) : (
-              <p>Giỏ hàng trống</p>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Đăng xuất */}
-      {user ? (
-        <>
-          {/* Chỉ hiển thị giỏ hàng khi isAdmin là false (người dùng bình thường) */}
-
-          {!user.isAdmin && (
-            <div className="cart-container">
-              <div className="love_List">
-                <h1>Yêu thích ❤️</h1>
-              </div>
-              <div className="cart_Name">
-                <button onClick={toggleCart}>
-                  <FaShoppingCart />
-                  {cartArray.length > 0 && <span>{cartArray.length}</span>}
-                </button>
-              </div>
-
-              {showCart && (
-                <div className="cart-items">
-                  {/* Hiển thị các sản phẩm trong giỏ hàng */}
-                </div>
+                </>
+              ) : (
+                <p>Giỏ hàng trống</p>
               )}
             </div>
           )}
+        </div>
 
-          <p className="navbar-user">
-            Hi: <span>{user.username}</span>
-          </p>
-
-          {/* Chỉ hiển thị nút "Product List" cho admin */}
-          {user.isAdmin && (
-            <Link to={"/ProductList"}>
-              <Button className="userList" variant="secondary">
-                User List Product
-              </Button>
-            </Link>
+        <div className="love-containe">
+          <div onClick={toggleLoveCart} className="love-icon"></div>
+          {/* Dropdown hiển thị sản phẩm */}
+          {showLove && (
+            <div className="love-dropdown">
+              {loveArray.length > 0 ? (
+                <>
+                  {loveArray.map((love, index) => (
+                    <div key={index} className="love-item">
+                      <img src={love.avatar} alt={love.name} />{" "}
+                      {/* Hình ảnh sản phẩm */}
+                      <div className="love-item-info">
+                        <h5>{love.name}</h5>
+                        <p>{formatCurrency(love.price)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <p>danh sach yeu thich bi trong</p>
+              )}
+            </div>
           )}
+        </div>
 
-          <Link to="/logout" className="navbar-logout" onClick={handleLogout}>
-            Log out
-          </Link>
-        </>
-      ) : (
-        <>
-          <Link to="/login" className="navbar-login">
-            Login
-          </Link>
-          <Link to="/register" className="navbar-register">
-            Register
-          </Link>
-        </>
-      )}
+        {/* Đăng xuất */}
+        <div className="userInforNav">
+          {user ? (
+            <>
+              {/* Chỉ hiển thị giỏ hàng khi isAdmin là false (người dùng bình thường) */}
+
+              {!user.isAdmin && (
+                <div className="cart-container">
+                  <div className="love_List">
+                    <h1 onClick={toggleLoveCart}>Yêu thích ❤️</h1>
+                  </div>
+                  <div className="cart_Name">
+                    <button onClick={toggleCart}>
+                      <FaShoppingCart />
+                      {cartArray.length > 0 && <span>{cartArray.length}</span>}
+                    </button>
+                  </div>
+
+                  {showCart && (
+                    <div className="cart-items">
+                      {/* Hiển thị các sản phẩm trong giỏ hàng */}
+                    </div>
+                  )}
+                  {showLove && (
+                    <div className="cart-items">
+                      {/* Hiển thị các sản phẩm trong giỏ hàng */}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="user_Information">
+                <p className="navbar-user">
+                  Hi: <span>{user.username}</span>
+                </p>
+
+                {/* Chỉ hiển thị nút "Product List" cho admin */}
+                {user.isAdmin && (
+                  <Link to={"/ProductList"}>
+                    <Button className="userList" variant="secondary">
+                      User List Product
+                    </Button>
+                  </Link>
+                )}
+
+                <Link
+                  to="/logout"
+                  className="navbar-logout"
+                  onClick={handleLogout}
+                >
+                  Log out
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="navbar-login">
+                Login
+              </Link>
+              <Link to="/register" className="navbar-register">
+                Register
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
     </nav>
   );
 }

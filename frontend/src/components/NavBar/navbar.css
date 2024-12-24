@@ -23,6 +23,10 @@
   font-weight: 600;
 }
 .right_MainPage {
+  justify-content: end;
+  align-items: end;
+  position: relative;
+  float: right;
   display: flex;
 }
 .img_Header {
@@ -46,8 +50,7 @@
 }
 .navbar-register {
   color: rgb(255, 255, 255);
-
-  padding: 0.35rem;
+  margin-left: 15px;
   border-radius: 6px;
 }
 
@@ -138,6 +141,19 @@
   border: 1px solid #ddd;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0);
 }
+
+.love-dropdown {
+  z-index: 100;
+  width: fit-content;
+  position: absolute;
+  top: 20px;
+  right: -220px;
+
+  background-color: gray;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0);
+}
+
 .cart-item-quantity {
   margin-left: 30px;
 }
@@ -168,14 +184,30 @@
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
+.info_UserLogin {
+  display: flex;
+}
+.userInforNav {
+  display: flex;
+  float: right;
+  position: relative;
+  justify-items: end;
+}
 .checkout-button:hover {
   background-color: orangered; /* Màu xanh đậm hơn khi hover */
   transform: translateY(-2px); /* Đẩy nút lên một chút */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Thêm đổ bóng */
 }
-
+.user_Information {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .checkout-button:active {
   transform: translateY(0); /* Trở lại vị trí khi nhấn */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Giảm đổ bóng */
+}
+.navbar-user {
+  margin: 0px;
+  color: white;
 }

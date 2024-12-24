@@ -7,6 +7,8 @@ import { PersistGate } from "redux-persist/integration/react";
 // import store from './redux/store';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CartProvider } from "./FunctionRenderApi/CartContext";
+import { AuthProvider } from "./FunctionRenderApi/AuthContext";
+import { LoveProvider } from "./FunctionRenderApi/LoveContext";
 // Chọn DOM node root
 const rootElement = document.getElementById("root");
 
@@ -18,7 +20,9 @@ root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <CartProvider>
-        <App />
+        <LoveProvider>
+          <App />
+        </LoveProvider>
       </CartProvider>
     </PersistGate>
   </Provider>

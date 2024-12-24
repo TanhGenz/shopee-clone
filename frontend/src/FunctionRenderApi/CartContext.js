@@ -32,10 +32,10 @@ export const CartProvider = ({ children }) => {
   //   calculateTotalAmount(cartArray);
   //   localStorage.setItem("cart", JSON.stringify(cartArray));
   // }, [cartArray]);
-  const addToCart = (item) => {
-    const itemIndex = cart.findIndex((cartItem) => cartItem.id === item.id);
+  const addToCart = (product) => {
+    const itemIndex = cart.findIndex((cartItem) => cartItem.id === product.id);
     if (itemIndex === -1) {
-      setCart([...cart, { ...item, quantity: 1 }]);
+      setCart([...cart, { ...product, quantity: 1 }]);
     } else {
       const updatedCart = cart.map((cartItem, index) =>
         index === itemIndex

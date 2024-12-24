@@ -6,21 +6,24 @@ export const LoveContext = createContext();
 export const LoveProvider = ({ children }) => {
   const [loveList, setLoveList] = useState([]);
 
-  const addToLove = (item) => {
-    setLoveList((prev) => {
-      if (!prev.some((product) => product.id === item.id)) {
-        return [...prev, item];
-      }
-      return prev; // Nếu đã tồn tại, không thêm lại
-    });
-  };
-
-  const removeFromLove = (itemId) => {
-    setLoveList((prev) => prev.filter((product) => product.id !== itemId));
+  const addToLove = (product) => {
+    const loveIndex = loveList.findIndex(
+      (loveItem) => loveItem.id === product.id
+    );
+    if (loveIndex === -1) {
+      setLoveList([...loveList, { ...product, quantity: 1 }]);
+    } else {
+      const updatedCart = loveList.map((loveItem, index) =>
+        index === loveIndex
+          ? { ...loveItem, quantity: loveItem.quantity + 1 }
+          : loveItem
+      );
+      setLoveList(updatedCart);
+    }
   };
 
   return (
-    <LoveContext.Provider value={{ loveList, addToLove, removeFromLove }}>
+    <LoveContext.Provider value={{ loveList, addToLove, setLoveList }}>
       {children}
     </LoveContext.Provider>
   );

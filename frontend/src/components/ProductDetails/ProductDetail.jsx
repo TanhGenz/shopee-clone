@@ -4,20 +4,24 @@ import { CartContext } from "../../FunctionRenderApi/CartContext";
 import "./ProductDetails.css";
 import { formatCurrency } from "../ExchangeMoney/formatCurrency";
 import { LoveContext } from "../../FunctionRenderApi/LoveContext";
+import { AuthContext } from "../../FunctionRenderApi/AuthContext";
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [love, setLove] = useState(null);
+  console.log(product);
+
   const { addToCart } = useContext(CartContext);
-  const handleLove = () => {
-    alert("thêm vào yêu thích thành công");
-  };
+  const { addToLove } = useContext(LoveContext);
+
   useEffect(() => {
     fetch(
       `https://657eac8e3e3f5b189463f4b4.mockapi.io/api/products/products/${id}`
     )
       .then((res) => res.json())
-      .then((data) => setProduct(data));
+      .then((data) => setProduct(data))
+      .then((data) => setLove(data));
   }, [id]);
 
   if (!product) return <p>Loading...</p>;
@@ -25,6 +29,10 @@ export default function ProductDetail() {
   const handleAddToCart = () => {
     addToCart(product, quantity);
     alert("Đã thêm vào giỏ hàng!");
+  };
+  const handleLove = () => {
+    addToLove(product);
+    alert("Đã thêm vào yêu thích!");
   };
 
   return (
