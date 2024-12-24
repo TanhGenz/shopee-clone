@@ -20,7 +20,7 @@
 }
 .product-detail img {
   border-radius: 8px;
-  margin-left: 50px;
+  margin-left: 20px;
   object-fit: cover;
   margin-bottom: 20px;
   width: 200px;
@@ -30,6 +30,12 @@
   font-size: large;
   color: #333;
   margin-bottom: 10px;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 .add_ProductButton {
   color: #d3132b;

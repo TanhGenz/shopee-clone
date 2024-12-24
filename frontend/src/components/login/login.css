@@ -9,6 +9,9 @@
 
   background-color: whitesmoke;
 }
+.login-container p {
+  margin-bottom: 0px;
+}
 .form_Infor {
   display: flex;
 }
@@ -31,7 +34,7 @@
   left: 30%;
   background-color: white;
   width: 400px;
-  height: 334px;
+  height: 380px;
   float: right;
 }
 .form_register {

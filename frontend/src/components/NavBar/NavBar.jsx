@@ -12,7 +12,8 @@ import { Button } from "react-bootstrap";
 import { formatCurrency } from "../ExchangeMoney/formatCurrency";
 export default function NavBar() {
   const { cart, addToCart, setCart } = useContext(CartContext);
-  const { loveList, addToLove, setLoveList } = useContext(LoveContext);
+  const { loveList, addToLove, setLoveList, removeFromLove } =
+    useContext(LoveContext);
   console.log(cart);
   console.log("danh sách yêu thích hiện có", loveList);
 
@@ -20,6 +21,7 @@ export default function NavBar() {
   let updateLoveCart;
   const user = useSelector((state) => state.auth.login.currentUser);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [loadingId, setLoadingId] = useState(null);
 
   const [totalPrice, setTotalPrice] = useState(0);
   const accessToken = user?.accessToken;
@@ -121,6 +123,16 @@ export default function NavBar() {
         return [...prevLoveList, { ...items, quantity: 1 }];
       }
     });
+  };
+
+  const deleteLoveList = (id) => {
+    setLoadingId(id); // Bắt đầu trạng thái loading
+    setTimeout(() => {
+      setLoveList((prevLoveList) =>
+        prevLoveList.filter((item) => item.id !== id)
+      );
+      setLoadingId(null); // Kết thúc trạng thái loading
+    }, 1000); // Giả lập thời gian xóa (1 giây)
   };
 
   const handleAddToCart = (item) => {
@@ -305,6 +317,13 @@ export default function NavBar() {
                       <div className="love-item-info">
                         <h5>{love.name}</h5>
                         <p>{formatCurrency(love.price)}</p>
+                        <button
+                          className="delete_LoveList"
+                          onClick={() => deleteLoveList(love.id)}
+                          disabled={loadingId === love.id} // Vô hiệu hóa khi đang loading
+                        >
+                          {loadingId === love.id ? "Đang xóa..." : "Xóa"}
+                        </button>
                       </div>
                     </div>
                   ))}

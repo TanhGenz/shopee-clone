@@ -10,6 +10,7 @@
   color: white;
 }
 .navbar-logout {
+  margin-left: 20px;
   color: white;
 }
 #site-search {
@@ -23,6 +24,7 @@
   font-weight: 600;
 }
 .right_MainPage {
+  flex: 1;
   justify-content: end;
   align-items: end;
   position: relative;
@@ -37,8 +39,12 @@
 .navbar-home {
   color: rgb(163, 162, 162);
 }
+.love-item {
+  display: flex;
+  height: 150px;
+}
 .love_List {
-  margin-top: 25px;
+  margin-top: 12px;
   display: flex;
   position: relative;
 
@@ -71,7 +77,6 @@
   position: relative;
   cursor: pointer;
   display: flex;
-  margin-top: 10px;
 }
 .cart-containerTwo {
   display: flex;
@@ -80,7 +85,11 @@
   position: relative;
 }
 .cart_Name {
-  margin-top: 10px;
+  margin-top: 3px;
+}
+.cart_Name span {
+  position: absolute;
+  bottom: 20px;
 }
 .cart-icon {
   display: flex;
@@ -135,7 +144,6 @@
   width: fit-content;
   position: absolute;
   top: 20px;
-  right: -220px;
 
   background-color: white;
   border: 1px solid #ddd;
@@ -144,16 +152,18 @@
 
 .love-dropdown {
   z-index: 100;
-  width: fit-content;
+  width: 400px;
   position: absolute;
-  top: 20px;
-  right: -220px;
-
+  top: 40px;
+  right: 200px;
   background-color: gray;
   border: 1px solid #ddd;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0);
 }
-
+.love-item {
+  border-bottom: 1px solid black;
+  margin-top: 15px;
+}
 .cart-item-quantity {
   margin-left: 30px;
 }
@@ -163,6 +173,34 @@
 .decreaseButton {
   margin-right: 10px;
 }
+.delete_LoveList {
+  position: relative;
+  left: 40%;
+  top: 10%;
+  border: 1px solid orangered;
+  color: white;
+  font-weight: bolder;
+  font-size: small;
+}
+.love-item-info p {
+  margin-bottom: 0px;
+  text-align: center;
+}
+.love-item-info h5 {
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.love-item-info {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  margin-left: 50px;
+}
+
 .increaseButton {
   margin-left: 10px;
 }

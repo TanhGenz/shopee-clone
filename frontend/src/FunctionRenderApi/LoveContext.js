@@ -21,9 +21,15 @@ export const LoveProvider = ({ children }) => {
       setLoveList(updatedCart);
     }
   };
+  const removeFromLove = (id) => {
+    const updatedLoveList = loveList.filter((loveItem) => loveItem.id !== id);
+    setLoveList(updatedLoveList);
+  };
 
   return (
-    <LoveContext.Provider value={{ loveList, addToLove, setLoveList }}>
+    <LoveContext.Provider
+      value={{ loveList, addToLove, setLoveList, removeFromLove }}
+    >
       {children}
     </LoveContext.Provider>
   );
