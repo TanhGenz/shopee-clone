@@ -5,9 +5,10 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [totalAmount, setTotalAmount] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
   // Chuyển đổi cart thành mảng khi cần tính toán
   const [cart, setCart] = useState([]); // Khai báo cart và setCart trong context
-  // useEffect(() => {
+
   //   // Khởi tạo giỏ hàng từ Local Storage
   //   const storedCart = localStorage.getItem("cart");
   //   if (storedCart) {

@@ -1,0 +1,100 @@
+/* Tổng quan */
+
+/* Container chính */
+.containerForm {
+  max-width: 500px;
+  width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.containerForm h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Form */
+form {
+  width: 100%;
+}
+
+/* Input và Textarea */
+input,
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #0077cc;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 119, 204, 0.5);
+}
+
+/* Nhãn */
+label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Nút Submit */
+.buttonForm {
+  background-color: #0077cc;
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.buttonForm:hover {
+  background-color: #005999;
+}
+
+.buttonForm:active {
+  background-color: #004080;
+}
+
+/* Hiệu ứng trước/sau */
+.max-w-md::before,
+.max-w-md::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(40px);
+}
+
+.max-w-md::before {
+  width: 120px;
+  height: 120px;
+  background-color: #d0bfff;
+  top: -30px;
+  left: -40px;
+}
+
+.max-w-md::after {
+  width: 150px;
+  height: 150px;
+  background-color: #a0d1ff;
+  bottom: -50px;
+  right: -30px;
+}

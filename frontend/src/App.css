@@ -62,3 +62,28 @@ a {
 .dataSanPham {
   cursor: pointer;
 }
+/* Màn hình nhỏ hơn hoặc bằng 480px */
+@media screen and (max-width: 480px) {
+}
+
+/* Màn hình nhỏ hơn hoặc bằng 767px (smartphone) */
+@media screen and (max-width: 767px) {
+  body {
+    width: max-content;
+    max-width: fit-content;
+  }
+  .search-bar {
+    width: 80%;
+
+    margin-left: 100px;
+  }
+  .container__slider {
+    margin-left: 290px !important;
+  }
+}
+/* Kích thước màn hình máy tính bảng */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+}
+/* Laptop và máy tính để bàn nhỏ */
+@media screen and (min-width: 1025px) and (max-width: 1440px) {
+}

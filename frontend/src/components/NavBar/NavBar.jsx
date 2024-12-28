@@ -346,6 +346,9 @@ export default function NavBar() {
                   <div className="love_List">
                     <h1 onClick={toggleLoveCart}>Yêu thích ❤️</h1>
                   </div>
+                  <Link className="contactAdmin" to={"/ContactAdmin"}>
+                    Góp Ý
+                  </Link>
                   <div className="cart_Name">
                     <button onClick={toggleCart}>
                       <FaShoppingCart />

@@ -200,7 +200,10 @@
   justify-content: center;
   margin-left: 50px;
 }
-
+.contactAdmin {
+  color: white;
+  margin-top: 10px;
+}
 .increaseButton {
   margin-left: 10px;
 }
@@ -209,7 +212,9 @@
   margin-top: 20px;
   padding-bottom: 10px;
 }
-
+.contactAdmin {
+  margin-left: 10px;
+}
 .checkout-button {
   color: black;
   padding: 10px 10px;

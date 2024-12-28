@@ -10,7 +10,6 @@ export default function ProductDetail() {
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [love, setLove] = useState(null);
-  console.log(product);
 
   const { addToCart } = useContext(CartContext);
   const { addToLove } = useContext(LoveContext);

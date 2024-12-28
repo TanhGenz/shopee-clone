@@ -16,6 +16,7 @@ import MainPage from "./components/mainPage/MainPage";
 import ZaloButton from "./components/zaloButton/ZaloButton";
 import { LoveProvider } from "./FunctionRenderApi/LoveContext";
 import { AuthProvider } from "./FunctionRenderApi/AuthContext";
+import ContactAdmin from "./components/contactAdmin/ContactAdmin";
 function App() {
   return (
     <CartProvider>
@@ -32,6 +33,7 @@ function App() {
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/mainPage" element={<MainPage />} />
               <Route path="/CheckOut" element={<CheckOut />} />
+              <Route path="/ContactAdmin" element={<ContactAdmin />} />
             </Routes>
           </div>
         </Router>
